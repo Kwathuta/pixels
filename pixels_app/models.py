@@ -1,14 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 
 class Profile(models.Model):
     photo = models.ImageField()
+    username = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     bio = models.CharField(max_length=140)
 
     def __str__(self):
-        return self.name
+        return self.username
 
     def save_profile(self):
         self.save()
@@ -19,6 +21,15 @@ class Profile(models.Model):
 
 class Likes(models.Model):
     likes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.likes
+
+    def save_likes(self):
+        self.save()
+
+    def delete_likes(self):
+        self.delete()
 
 
 class Image(models.Model):

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Image, Profile
+from .models import Image, Profile, Likes
 
 # Create your tests here.
 
@@ -8,8 +8,10 @@ class ImageTest(TestCase):
     def setUp(self):
         self.profile = Profile(name='dev-kev')
         self.profile.save_profile()
+        self.likes = Likes(likes=0)
+        self.likes = Likes.save_likes()
         self.image_test = Image(name='coffee', caption='Coffee, Code, Read',
-                                location=self.location, category=self.category)
+                                profile=self.profile, likes=self.likes)
 
     def test_instance(self):
         self.assertTrue(isinstance(self.image_test, Image))
