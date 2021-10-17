@@ -17,13 +17,17 @@ class Profile(models.Model):
         self.delete()
 
 
+class Likes(models.Model):
+    likes = models.IntegerField(default=0)
+
+
 class Image(models.Model):
     image = models.ImageField()
     name = models.CharField(max_length=30)
-    description = models.TextField()
+    caption = models.CharField(max_length=140)
     profile = models.ForeignKey(
         Profile, on_delete=models.CASCADE, default=None)
-    likes = models.IntegerField()
+    likes = models.ForeignKey(Likes, on_delete=models.CASCADE, default=None)
     comments = models.CharField(max_length=140)
     post_time = models.DateTimeField(auto_now_add=True)
 
