@@ -77,3 +77,16 @@ class Likes(models.Model):
 
     def __str__(self):
         return self.user
+
+
+class Comments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=140)
+    post_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment
+
+    def save_comment(self):
+        self.save()
