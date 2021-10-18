@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to='pixels/')
     username = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.CharField(max_length=140)
+    bio = models.CharField(max_length=140, blank=True)
 
     def __str__(self):
         return self.username
@@ -15,8 +15,16 @@ class Profile(models.Model):
     def save_profile(self):
         self.save()
 
+    def update_profile(self):
+        self.save()
+
     def delete_profile(self):
         self.delete()
+
+    @classmethod
+    def get_profile_by_username(cls, username):
+        profile = cls.objects.filter(username=username)
+        return profile
 
 
 class Image(models.Model):
@@ -26,7 +34,8 @@ class Image(models.Model):
     profile = models.ForeignKey(
         User, on_delete=models.CASCADE)
     likes = models.IntegerField(default=0)
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="images")
     comments = models.IntegerField(default=0)
     post_time = models.DateTimeField(auto_now_add=True)
 
@@ -41,3 +50,22 @@ class Image(models.Model):
 
     def delete_image(self):
         self.delete()
+
+    def update_caption(self, new_caption):
+        self.caption = new_caption
+        self.save()
+
+    @classmethod
+    def get_images_by_user(cls, user):
+        images = cls.objects.filter(user=user)
+        return images
+
+    @classmethod
+    def search_by_image_name(cls, search_term):
+        images = cls.objects.filter(name__icontains=search_term)
+        return images
+
+    @classmethod
+    def get_image(cls, id):
+        image = cls.objects.get(id=id)
+        return image
