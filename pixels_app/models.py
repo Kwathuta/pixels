@@ -33,10 +33,10 @@ class Image(models.Model):
     caption = models.CharField(max_length=140)
     profile = models.ForeignKey(
         User, on_delete=models.CASCADE)
-    likes = models.IntegerField(default=0)
+    total_likes = models.IntegerField(default=0)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="images")
-    comments = models.IntegerField(default=0)
+    total_comments = models.IntegerField(default=0)
     post_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
