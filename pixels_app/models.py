@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     photo = models.ImageField()
-    username = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.CharField(max_length=140)
 
     def __str__(self):
@@ -19,27 +19,15 @@ class Profile(models.Model):
         self.delete()
 
 
-class Likes(models.Model):
-    likes = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.likes
-
-    def save_likes(self):
-        self.save()
-
-    def delete_likes(self):
-        self.delete()
-
-
 class Image(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to='pixels/')
     name = models.CharField(max_length=30)
     caption = models.CharField(max_length=140)
     profile = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, default=None)
-    likes = models.ForeignKey(Likes, on_delete=models.CASCADE, default=None)
-    comments = models.CharField(max_length=140)
+        User, on_delete=models.CASCADE)
+    likes = models.IntegerField(default=0)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    comments = models.IntegerField(default=0)
     post_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
