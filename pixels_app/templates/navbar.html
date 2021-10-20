@@ -1,3 +1,4 @@
+{%load static%}
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid navbar--styles">
     <a class="navbar-brand instagram" href="/"> Instagram </a>
@@ -31,22 +32,32 @@
       <ul class="navbar-nav nav-right">
         <li class="nav-item">
           <a class="nav-link active" href="/">
-            <img src="../../static/img/home.svg" alt="home" />
+            <img src="{%static '/img/home.svg'%}" alt="home" />
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/">
-            <img src="../../static/img/send.svg" alt="inbox" />
+            <img src="{%static '/img/send.svg'%}" alt="inbox" />
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/">
-            <img src="../../static/img/compass.svg" alt="explore" />
+            <img src="{%static '/img/compass.svg'%}" alt="explore" />
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/">
-            <img src="../../static/img/heart.svg" alt="notifications" />
+            <img src="{%static '/img/heart.svg'%}" alt="notifications" />
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            <img src="{%static '/img/plus-square.svg'%}" alt="notifications" />
           </a>
         </li>
         <li class="nav-item dropdown">
@@ -77,5 +88,41 @@
       </ul>
     </div>
   </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Post</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{% url 'save_image' %}" method="post"
+                                            enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="image_name">Name</label>
+                                                <input type="text" class="form-control" value="" name="image_name"
+                                                    required>
+                                            </div>
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <div class="form-group mt-3">
+                                                <label for="exampleFormControlTextarea1">Caption</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                                    name="image_caption" required></textarea>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="exampleFormControlFile1">Upload Photo</label>
+                                                <input type="file" class="form-control" id="exampleFormControlFile1"
+                                                    name="image_file" required>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-outline-danger">Post</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+</div>
 </nav>
 <hr />
