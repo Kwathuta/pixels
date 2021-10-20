@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Image, Profile, Likes, Comments, User
 from django.db import models
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 
 # Create your views here.
@@ -126,20 +129,20 @@ def update_profile(request):
         bio = request.POST['bio']
 
         profile_image = request.FILES['profile_pic']
-        # profile_image = models.ImageField(upload_to='pixels/')
-        # profile_url = profile_image['url']
+        profile_image = cloudinary.uploader.upload(profile_image)
+        profile_url = profile_image['url']
 
         user = User.objects.get(id=current_user.id)
 
         if Profile.objects.filter(username_id=current_user.id).exists():
 
             profile = Profile.objects.get(username_id=current_user.id)
-            profile.photo = profile_image
+            profile.photo = profile_url
             profile.bio = bio
             profile.save()
         else:
             profile = Profile(username_id=current_user.id,
-                              photo=profile_image, bio=bio)
+                              photo=profile_url, bio=bio)
             profile.save_profile()
 
         user.first_name = first_name
@@ -161,10 +164,9 @@ def save_image(request):
         image_name = request.POST['image_name']
         image_caption = request.POST['image_caption']
         image_file = request.FILES['image_file']
-        # image_file = models.ImageField(upload_to='pixels/')
-        # image_url = image_file['url']
-        # image_public_id = image_file['public_id']
-        image = Image(name=image_name, caption=image_caption, image=image_file,
+        image_file = cloudinary.uploader.upload(image_file)
+        image_url = image_file['url']
+        image = Image(name=image_name, caption=image_caption, image=image_url,
                       profile_id=request.POST['user_id'], user_id=request.POST['user_id'])
         image.save_image()
         return redirect('/', {'success': 'Image Uploaded Successfully'})
