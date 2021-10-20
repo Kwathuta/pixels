@@ -8,7 +8,7 @@
         <div class="card mb-4">
           <div class="d-flex justify-content-start m-2">
             <div>
-              <a href="{% url 'user.profile' image.user.id %}">
+              <a href="{% url 'user_profile' image.user.id %}">
                 <img
                   src="https://res.cloudinary.com/developerwilson/image/upload/v1632582461/rzfpe5avqvhfbrtkwtqg.jpg"
                   alt=""
@@ -17,7 +17,7 @@
               </a>
             </div>
             <div class="text-center mt-1">
-              <a href="{% url 'user.profile' image.user.id %}">
+              <a href="{% url 'user_profile' image.user.id %}">
                 <h6><small>{{ image.user.username }} </small></h6>
               </a>
             </div>
@@ -32,27 +32,27 @@
               <div class="d-flex justify-content-start">
                 <div>
                   <p>
-                    <a href="{% url 'like.image' image.id %}">
+                    <a href="{% url 'like_image' image.id %}">
                       <i class="far fa-heart"></i
                     ></a>
                   </p>
                 </div>
                 <div>
                   <p>
-                    <a href="{% url 'single.image' image.id %}">
+                    <a href="{% url 'single_image' image.id %}">
                       <i class="far fa-comment"></i
                     ></a>
                   </p>
                 </div>
               </div>
             </small>
-            <a href="{% url 'single.image' image.id %}">
+            <a href="{% url 'single_image' image.id %}">
               <p class="fade-item">
-                {{image.like_count }} Likes <br />View All {{image.comment_count
-                }} Comments
+                {{image.total_likes }} Likes <br />View All
+                {{image.total_comments}} Comments
               </p>
               <h6 class="">
-                {{ image.image_caption|slice:":20" }}<small
+                {{ image.caption|slice:":20" }}<small
                   ><span class="text-muted">...Read More</span></small
                 >
               </h6>

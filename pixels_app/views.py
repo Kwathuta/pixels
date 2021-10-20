@@ -20,7 +20,7 @@ def index(request):
 def profile(request):
     current_user = request.user
     images = Image.objects.filter(user_id=current_user.id)
-    profile = Profile.objects.filter(user_id=current_user.id).first()
+    profile = Profile.objects.filter(username_id=current_user.id).first()
     return render(request, 'profile.html', {"images": images, "profile": profile})
 
 
@@ -61,7 +61,7 @@ def image_comments(request, id):
     if Image.objects.filter(id=id).exists():
 
         comments = Comments.objects.filter(image_id=id)
-        return render(request, 'picture.html', {'image': image, 'comments': comments, 'images': related_images, 'title': title})
+        return render(request, 'image_details.html', {'image': image, 'comments': comments, 'images': related_images, 'title': title})
     else:
         return redirect('/')
 
@@ -92,8 +92,8 @@ def user_profile(request, id):
 
         images = Image.objects.filter(user_id=id)
 
-        profile = Profile.objects.filter(user_id=id).first()
-        return render(request, 'user-profile.html', {'images': images, 'profile': profile, 'user': user})
+        profile = Profile.objects.filter(username_id=id).first()
+        return render(request, 'user_profile.html', {'images': images, 'profile': profile, 'user': user})
     else:
         return redirect('/')
 
@@ -126,20 +126,20 @@ def update_profile(request):
         bio = request.POST['bio']
 
         profile_image = request.FILES['profile_pic']
-        profile_image = models.ImageField(upload_to='pixels/')
-        profile_url = profile_image['url']
+        # profile_image = models.ImageField(upload_to='pixels/')
+        # profile_url = profile_image['url']
 
         user = User.objects.get(id=current_user.id)
 
-        if Profile.objects.filter(user_id=current_user.id).exists():
+        if Profile.objects.filter(username_id=current_user.id).exists():
 
-            profile = Profile.objects.get(user_id=current_user.id)
-            profile.photo = profile_url
+            profile = Profile.objects.get(username_id=current_user.id)
+            profile.photo = profile_image
             profile.bio = bio
             profile.save()
         else:
-            profile = Profile(user_id=current_user.id,
-                              profile_photo=profile_url, bio=bio)
+            profile = Profile(username_id=current_user.id,
+                              photo=profile_image, bio=bio)
             profile.save_profile()
 
         user.first_name = first_name
@@ -161,10 +161,10 @@ def save_image(request):
         image_name = request.POST['image_name']
         image_caption = request.POST['image_caption']
         image_file = request.FILES['image_file']
-        image_file = models.ImageField(upload_to='pixels/')
-        image_url = image_file['url']
-        image_public_id = image_file['public_id']
-        image = Image(image_name=image_name, image_caption=image_caption, image=image_url,
+        # image_file = models.ImageField(upload_to='pixels/')
+        # image_url = image_file['url']
+        # image_public_id = image_file['public_id']
+        image = Image(name=image_name, caption=image_caption, image=image_file,
                       profile_id=request.POST['user_id'], user_id=request.POST['user_id'])
         image.save_image()
         return redirect('/profile', {'success': 'Image Uploaded Successfully'})
