@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg">
-  <div class="container-fluid test">
-    <a class="navbar-brand" href="/"> Instagram </a>
+  <div class="container-fluid navbar--styles">
+    <a class="navbar-brand instagram" href="/"> Instagram </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -14,9 +14,9 @@
       <i class="fa fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="">
         <div class="container-fluid search-form text-center">
-          <form class="d-flex" action="{% url 'search' %}">
+          <form id="navform" class="d-flex" action="{% url 'search' %}">
             <input
               class="form-control me-2"
               type="search"
@@ -31,15 +31,51 @@
       <ul class="navbar-nav nav-right">
         <li class="nav-item">
           <a class="nav-link active" href="/">
-            <i class="fa fa-home"></i>
+            <img src="../../static/img/home.svg" alt="home" />
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'profile'%}">
-            <i class="fa fa-user"></i>
+          <a class="nav-link active" href="/">
+            <img src="../../static/img/send.svg" alt="inbox" />
           </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/">
+            <img src="../../static/img/compass.svg" alt="explore" />
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/">
+            <img src="../../static/img/heart.svg" alt="notifications" />
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              id="profilePhoto"
+              src="{{user.profile.photo.url}}"
+              alt="user"
+            />
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" href="{% url 'profile'%}"
+                ><i class="far fa-user-circle"></i> Profile</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="{%url 'logout'%}">Logout</a></li>
+          </ul>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+<hr />

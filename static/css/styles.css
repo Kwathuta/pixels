@@ -1,1 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Cookie&display=swap");
 
+nav {
+  height: 60px;
+}
+
+.instagram {
+  font-family: "Cookie", cursive;
+  color: black;
+  font-size: 40px;
+}
+
+.navbar--styles {
+  width: 50%;
+  justify-content: space-around !important;
+}
+
+.search-form {
+  justify-content: center;
+  align-items: center;
+}
+
+#navbarContent {
+  justify-content: space-around;
+  align-items: center;
+}
+
+#navform {
+  margin-top: 10px;
+}
+
+#profilePhoto {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.far.fa-user-circle {
+  margin-right: 5px;
+}
